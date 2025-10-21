@@ -14,4 +14,4 @@ Fuente a la base de datos:\
 \
 - *DEET*\
 \
-[![DOI](https://zenodo.org/badge/1067623785.svg)](https://doi.org/10.5281/zenodo.17241011)
+[![DOI](https://zenodo.org/badge/1080817876.svg)](https://doi.org/10.5281/zenodo.17410655)
