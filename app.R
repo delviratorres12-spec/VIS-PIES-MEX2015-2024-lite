@@ -158,7 +158,8 @@ ui <- fluidPage(
     
     tabPanel("Entidades",
              h3("Evolución de indicadores por entidad/elección (con valores imputados)"),
-             selectInput("entidad", "Selecciona por entidad", choices = entidades, selected = "Ciudad de México"),
+             selectInput("entidad", "Selecciona una entidad", choices = entidades, selected = "Ciudad de México"),
+             p("Para la entidad seleccionada se analizó la integirdad de los siguientes procesos electorales:"),
              div(style = "display:flex; justify-content:center;",
                  tableOutput("tabla3")),
              selectInput("tipo4", "Tipo de elección", choices = tipos),
@@ -248,7 +249,7 @@ server <- function(input, output, session) {
     axis(side = 1, at = seq(2015, 2024, by = 1), las = 1,font = 3,cex.axis = 1.25)
     
     # Líneas guías horizontales (opcional)
-    # abline(h = seq(10, 90, by = 10), col = "grey70", lty = "dotted")
+    abline(h = seq(10, 90, by = 10), col = "grey70", lty = "dotted")
     
     # Etiquetas encima de los puntos
     text(x = z$year, 
@@ -293,7 +294,7 @@ server <- function(input, output, session) {
          # font.axis= 3, # font: 1: normal, 2: bold, 3: italic, 4: bold italic
          # col.axis= "steelblue",
          # cex.axis= 1,
-         # cex.lab= 3,
+         # cex.lab= 1.25,
          # las=1
     )
     
@@ -302,7 +303,7 @@ server <- function(input, output, session) {
     axis(side = 1, at = seq(2015, 2024, by = 1), las = 1,font = 3,cex.axis = 1.25)
     
     # Líneas guías horizontales (opcional)
-    # abline(h = seq(10, 90, by = 10), col = "grey70", lty = "dotted")
+    abline(h = seq(10, 90, by = 10), col = "grey70", lty = "dotted")
     
     # Etiquetas encima de los puntos
     text(x = z$year, 
@@ -330,7 +331,7 @@ server <- function(input, output, session) {
   output$graf4 <- renderPlot({
 
     z <- base %>%
-      filter(`Tipo.de.elección` == input$tipo4) %>%
+      filter(`Tipo.de.elección` == input$tipo4 & estado == input$entidad) %>%
       # select(year, !!sym(input$var)) %>% 
       rename(value= !!sym(input$var3)) %>% 
       arrange(year) %>% 
@@ -346,16 +347,16 @@ server <- function(input, output, session) {
          cex=1.5,
          col=adjustcolor("#0029a3", alpha=1),
          ylim=c(10,90),
-         yaxt = "n",
+         # yaxt = "n",
          xaxt = "n",
          # main="Personalizado", 
          xlab="", 
-         ylab="",
-         # font.axis= 3, # font: 1: normal, 2: bold, 3: italic, 4: bold italic
+         ylab="Puntuación",
+         font.axis= 3, # font: 1: normal, 2: bold, 3: italic, 4: bold italic
          # col.axis= "steelblue",
          # cex.axis= 1,
-         # cex.lab= 3,
-         # las=1
+         cex.lab= 1.25,
+         las=1
     )
     
     # Eje Y manual, de 0 a 40 en 10 en 10
@@ -363,7 +364,7 @@ server <- function(input, output, session) {
     axis(side = 1, at = seq(2015, 2024, by = 1), las = 1,font = 3,cex.axis = 1.25)
     
     # Líneas guías horizontales (opcional)
-    # abline(h = seq(10, 90, by = 10), col = "grey70", lty = "dotted")
+    abline(h = seq(10, 90, by = 10), col = "grey70", lty = "dotted")
     
     # Etiquetas encima de los puntos
     text(x = z$year, 
@@ -382,7 +383,7 @@ server <- function(input, output, session) {
 shinyApp(ui, server)
 
 # library(shinylive)
-#
+# 
 # # Exporta la app a HTML y recursos estáticos
 # shinylive::export(appdir = ".", destdir = "docs")
 
